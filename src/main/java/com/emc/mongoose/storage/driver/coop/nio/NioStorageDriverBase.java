@@ -71,6 +71,9 @@ public abstract class NioStorageDriverBase<I extends Item, O extends Operation<I
 		} else {
 			ioWorkerCount = ThreadUtil.getHardwareThreadCount();
 		}
+		if (ioWorkerCount > ThreadUtil.getHardwareThreadCount()) {
+			IO_EXECUTOR.setThreadCount(ioWorkerCount);
+		}
 		ioFibers = new ArrayList<>(ioWorkerCount);
 		opBuffs = new CircularBuffer[ioWorkerCount];
 		opBuffLocks = new Lock[ioWorkerCount];
